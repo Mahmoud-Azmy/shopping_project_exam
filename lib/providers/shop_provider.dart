@@ -1,22 +1,23 @@
 import 'package:flutter/foundation.dart';
+
 import '../models/product.dart';
 
 class ShopProvider with ChangeNotifier {
-  // bug 11
-  static const double vatRate = 14;
+  // bug 11 is one to 0.14 not 14
+  static const double vatRate = 0.14;
 
   List<Product> products = [
     const Product(
       id: 'p1',
       title: 'كاميرا احترافية',
-      price: '23000',
+      price: 23000,
       imageUrl: 'https://picsum.photos/seed/p1/400/300',
       description: 'كاميرا بدقة عالية مناسبة للتصوير.',
     ),
     const Product(
       id: 'p2',
       title: 'لابتوب 14 بوصة',
-      price: '44500',
+      price: 44500,
       imageUrl: 'https://picsum.photos/seed/p2/400/300',
       description: 'لابتوب أداء قوي.',
     ),
@@ -33,8 +34,8 @@ class ShopProvider with ChangeNotifier {
     if (!cart.any((p) => p.id == product.id)) {
       cart.add(product);
     }
-    // bug 12
-
+    // bug 12 calcolechan to prodact 
+    notifyListeners();
     recalculateTotal();
   }
 
@@ -47,10 +48,11 @@ class ShopProvider with ChangeNotifier {
   }
 
   double calculateFinalPrice(Product product) {
-    double price = double.parse(product.price);
+    double price = (product.price);
   // bug 13 check calculation order
+    if(price >1000){
     price += price * 0.14; 
-
+    }
     if (price > 10000) {
       price -= price * 0.10;
     }
