@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shopping_exam/screens/home_screen.dart';
+
 import 'signup_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -18,20 +19,21 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void dispose() {
     // bug 1
+    // is not super to "pass"
     email.dispose();
-    super.dispose();
+    pass.dispose();
   }
 
   void _login() {
-
-    // BUG 2 – 
-    ScaffoldMessenger.of(context)
-        .showSnackBar(const SnackBar(content: Text('Logged in (demo)')));
+    // BUG 2 –
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text('Logged in (demo)')));
 
     if (_formkey.currentState!.validate()) {
-
-      //  BUG 3 
-      Navigator.push(
+      //  BUG 3
+      // posh is to pop is to not seved to lest
+      Navigator.pop(
         context,
         MaterialPageRoute(builder: (context) => const HomeScreen()),
       );
@@ -55,7 +57,6 @@ class _LoginScreenState extends State<LoginScreen> {
             child: ListView(
               padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
               children: [
-
                 const SizedBox(height: 30),
 
                 // Email
@@ -63,8 +64,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   controller: email,
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) {
-                    // BUG 4 
+                    // BUG 4
                     if (value == null || value.isEmpty) {
+                      return 'invalid email';
+                    }
+                    if (!value.contains('@gmail.com')) {
                       return 'invalid email';
                     }
                     return null;
@@ -82,9 +86,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   controller: pass,
                   obscureText: obscure,
                   validator: (value) {
-                    // BUG 5 
+                    // BUG 5
                     if (value == null || value.isEmpty) {
                       return 'invalid email';
+                    }
+                    if (value.length < 8) {
+                      return 'enter to password to 8';
                     }
                     return null;
                   },
@@ -109,7 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: FilledButton(
                     style: FilledButton.styleFrom(
                       shape: const StadiumBorder(),
-                      backgroundColor: const Color(0xFF8A8DFF),
+                      backgroundColor: const Color.fromARGB(255, 132, 134, 149),
                     ),
                     onPressed: _login,
                     child: const Text('Login'),

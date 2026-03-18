@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'login_screen.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -67,6 +68,9 @@ class _SignupScreenState extends State<SignupScreen> {
                   if (value == null || value.isEmpty) {
                     return "Email is required";
                   }
+                  if (value.contains('@gmail.com')) {
+                    return "invalid email";
+                  }
 
                   return null;
                 },
@@ -94,6 +98,9 @@ class _SignupScreenState extends State<SignupScreen> {
                   // bug 7
                   if (value == null || value.isEmpty) {
                     return "Password is required";
+                  }
+                  if (value.length < 8) {
+                    return 'enter to password to 8';
                   }
                   return null;
                 },
